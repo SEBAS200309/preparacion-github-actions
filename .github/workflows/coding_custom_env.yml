@@ -23,6 +23,6 @@ jobs:
           echo "El valor de la variable VERSION_APP es: ${VERSION_APP}"
       - name: Mostrar una variable por defecto de GitHub
         run: |
-          echo "Se muestra el valor de la variable GITHUB_ENV: ${{ GITHUB_ENV }}" &&
-          echo "También la variable GITHUB_RUN_ID: ${{ GITHUB_RUN_ID }}" &&
-          echo "Y el nombre del contenedor creado para este job: ${{ RUNNER_NAME }}"
+          echo "Se muestra el valor de la variable GITHUB_ENV: ${{ github.env }}"
+          echo "También la variable GITHUB_RUN_ID: ${{ github.run_id }}" 
+          echo "Y el nombre del contenedor creado para este job: ${{ runner.name }}"
