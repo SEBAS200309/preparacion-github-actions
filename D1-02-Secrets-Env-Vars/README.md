@@ -65,3 +65,108 @@ jobs:
       - name: Try to access a secret
         run: echo "Secret: ${{ secrets.NON_EXISTENT_SECRET }}" # Error: Secreto inexistente
 ```
+
+## Resultados
+### Desafío: Acceder a un Secreto de Repositorio en un Flujo de Trabajo
+[![secretos en actions](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/coding_repo_secret.yml/badge.svg)](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/coding_repo_secret.yml)
+
+Para este desafío me apoyé en [este link](https://docs.github.com/es/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions) de la ayuda de github para la creación del secreto a nivel del repositorio.
+
+#### Código
+
+```yaml
+name: secretos en actions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  usar_secreto:
+    runs-on: ubuntu-latest
+    steps:
+      - name: secreto 
+        run: |
+          echo "el valor del secreto es: ${{ secrets.MY_SUPER_SECRET }}"
+```
+#### Evidencia
+![](./resultado%20coding_repo_secret.png)
+creación del secreto
+![](./creacion%20de%20secreto.png)
+
+### Desafío: Definir y Utilizar Variables de Entorno Personalizadas y Predeterminadas 
+[![definir mi archivo env](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/coding_custom_env.yml/badge.svg)](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/coding_custom_env.yml)
+
+Para este desafío me apoyé en la [documentación](https://docs.github.com/es/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables), 
+Para el último step solicitado me guíe por el listado de variables de [esta lista](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#default-environment-variables)
+descubrí que existe una diferencia entre una variable y un contexto según lo explicado en [este enlace](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs) y se corrige en [este commit](https://github.com/LuisDelgado-LD/preparacion-github-actions/commit/34d698c0eb30639250266ad2b7861cbd89ee1522).
+
+#### Código
+
+```yaml
+name: definir mi archivo env
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  test_envs:
+    runs-on: ubuntu-latest
+    env:
+      PROYECTO_NOMBRE: "MiProyectoApp"
+    steps:
+      - name: definir variable a nivel de step
+        env: 
+          VERSION_APP: "1.0.0"
+        run: echo 'Es obligatorio agregar una propiedad "uses" o "run"'
+      - name: Mostrar el valor de la variable declarada a nivel de jobs
+        run: |
+          echo "El valor de la variable PROYECTO_NOMBRE es: ${PROYECTO_NOMBRE}"
+      - name: Mostrar el valor de la variable declarada a nivel de step
+        run: |
+          echo "El valor de la variable VERSION_APP es: ${VERSION_APP}"
+      - name: Mostrar una variable por defecto de GitHub
+        run: |
+          echo "Se muestra el valor de la variable GITHUB_ENV: ${{ github.env }}"
+          echo "También la variable GITHUB_RUN_ID: ${{ github.run_id }}" 
+          echo "Y el nombre del contenedor creado para este job: ${{ runner.name }}"
+```
+#### Evidencia
+![](./resultado%20coding_custom_env.png)
+
+### Desafío: Depurar un Flujo de Trabajo que Falla al Acceder a Variables de Entorno o Secretos
+Para este desafío basto con los conocimientos adquiridos en ejercicios anteriores por lo que no tuve necesidad de buscar información
+
+#### Código
+
+```yaml
+# D1-02-Secrets-Env-Vars/.github/workflows/debugging_secret_access_fail.yml
+name: Debugging Secret/Env Access
+
+on: [push]
+
+env:
+  # Variable de entorno de job definida incorrectamente (sintaxis)
+  JOB_ENV_VAR: incorrect-env-access
+
+jobs:
+  access-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Try to access job env
+        run: |
+          echo "Job Env: ${{ env.JOB_ENV_VAR }}" # Error: Sintaxis de acceso a variable de entorno en 'run'
+      - name: Try to access step env (will fail if above is fixed)
+        env:
+          STEP_ENV_VAR: "StepValue"
+        run: |
+          echo "Step Env: $STEP_ENV_VAR"
+      - name: Try to access a secret
+        run: |
+          echo "Secret: ${{ secrets.NON_EXISTENT_SECRET }}" # Error: Secreto inexistente
+```
+#### Evidencia
+![](./resultado%20debugging_secret_access_fail.png)
