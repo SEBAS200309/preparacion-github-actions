@@ -2,8 +2,9 @@ name: Depuración de Trigger Fallido
 
 on:
   push:
-    branches:
-      - !main # Esto es un error intencional, no funcionará como se espera para "no main"
+    branches-ignore:
+    # https://docs.github.com/es/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#push
+      - 'main' # Esto es un error intencional, no funcionará como se espera para "no main"
 
 jobs:
   check-branch:
