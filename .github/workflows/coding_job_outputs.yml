@@ -1,0 +1,27 @@
+name: trabajo con artifacts
+
+on:
+  push:
+    branches:
+      - main 
+  workflow_dispatch:
+    
+
+jobs:
+  generar_datos:
+    name: Generar datos 
+    runs-on: ubuntu-latest
+    steps:
+      - id: GO
+        name: Generar output
+        run: echo "salida=Output capturado desde step en generar_datos" >> "$GITHUB_OUTPUT"
+    outputs:
+      output_del_step: ${{ steps.GO.outputs.salida }}
+  
+  consumir_datos:
+    runs-on: ubuntu-latest
+    needs: generar_datos
+    steps:
+      - name: Visualizar datos capturados de job anterior
+        run: |
+          echo "${{ needs.generar_datos.outputs.output_del_step }}"
