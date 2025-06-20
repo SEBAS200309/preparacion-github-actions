@@ -1,0 +1,13 @@
+name: Depuración de Trigger Fallido
+
+on:
+  push:
+    branches:
+      - !main # Esto es un error intencional, no funcionará como se espera para "no main"
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show branch
+        run: echo "Esta rama es: ${{ github.ref }}"
