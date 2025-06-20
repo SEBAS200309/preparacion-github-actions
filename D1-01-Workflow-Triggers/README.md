@@ -61,3 +61,85 @@ jobs:
     steps:
       - name: Show branch
         run: echo "Esta rama es: ${{ github.ref }}"
+```
+
+## Resultados
+### Desafío: Creación de un Flujo de Trabajo Básico con Triggers Comunes
+[![Coding Push PR](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/coding_push_pr.yml/badge.svg)](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/coding_push_pr.yml)
+#### Código
+
+```yaml
+name: Coding Push PR
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ejecutar_comandos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: echo "¡El flujo de trabajo se activó por un push o pull request!"
+```
+#### Evidencia
+![](./resultado%20coding_push_pr.png)
+
+### Desafío: Configurar flujos de trabajo para eventos programados y manuales
+[![cron](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/coding_schedule_manual.yml/badge.svg?event=schedule)](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/coding_schedule_manual.yml)
+
+[![cron](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/coding_schedule_manual.yml/badge.svg?event=workflow_dispatch)](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/coding_schedule_manual.yml)
+#### Código
+Para este desafío me apoyé en la documentación ya que desconocía la sintaxis del trigger `schedule`  
+[https://docs.github.com/es/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule](https://docs.github.com/es/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule)
+
+```yaml
+name: cron
+
+on:
+  workflow_dispatch:
+  # https://docs.github.com/es/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule
+  schedule:
+    - cron: '0 3 * * *'
+jobs:
+  tarea_programada_o_manual:
+    runs-on: ubuntu-latest
+    steps:
+      - name: log
+        run: echo "Ejecutado desde ${{github.event_name}}"
+
+```
+#### Evidencia
+![](./resultado%20coding_schedule_manual%20ejecucion%20manual.png)
+
+### Desafío: Depurar un Flujo de Trabajo que no se Activa Correctamente
+[![Depuración de Trigger Fallido](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/debugging_trigger_fail.yml/badge.svg)](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/debugging_trigger_fail.yml)
+[![Depuración de Trigger Fallido](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/debugging_trigger_fail.yml/badge.svg?branch=d1-4)](https://github.com/LuisDelgado-LD/preparacion-github-actions/actions/workflows/debugging_trigger_fail.yml)
+
+Este desafío estuvo interesante, a pesar que la ia indicó un solo error en realidad eran 2. Para el primero la solución fue simple, basto con ver los ejemplos para darme cuenta que la lista debe ser de texto y por lo tanto debe estar rodeado de comillas simples `'` o dobles `"`. 
+El segundo error aún no tengo 100% claro como se resolvío, mi teoría más fuerte es un problema con la sintaxis y el uso de ":" dentro del valor de `run` 
+
+#### Código
+```yaml
+name: Depuración de Trigger Fallido
+
+on:
+  push:
+    branches-ignore:
+      - 'main' # Esto es un error intencional, no funcionará como se espera para "no main"
+      # https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#push
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show branch
+        run: |
+          echo "Esta rama es: ${{ github.ref }}"
+```
+#### Evidencia
+![](./resultado%20debugging_trigger_fail.png)
