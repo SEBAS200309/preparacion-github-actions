@@ -1,0 +1,28 @@
+name: definir mi archivo env
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  test_envs:
+    runs-on: ubuntu-latest
+    env:
+      PROYECTO_NOMBRE: "MiProyectoApp"
+    steps:
+      - name: definir variable a nivel de step
+        env: 
+          VERSION_APP: "1.0.0"
+        run: echo 'Es obligatorio agregar una propiedad "uses" o "run"'
+      - name: Mostrar el valor de la variable declarada a nivel de jobs
+        run: |
+          echo "El valor de la variable PROYECTO_NOMBRE es: ${PROYECTO_NOMBRE}"
+      - name: Mostrar el valor de la variable declarada a nivel de step
+        run: |
+          echo "El valor de la variable VERSION_APP es: ${VERSION_APP}"
+      - name: Mostrar una variable por defecto de GitHub
+        run: |
+          echo "Se muestra el valor de la variable GITHUB_ENV: ${{ GITHUB_ENV }}" &&
+          echo "También la variable GITHUB_RUN_ID: ${{ GITHUB_RUN_ID }}" &&
+          echo "Y el nombre del contenedor creado para este job: ${{ RUNNER_NAME }}"
