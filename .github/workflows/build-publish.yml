@@ -10,8 +10,8 @@ on:
       - "D1-05-CI-CD-Publishing/desafío 1/**"
   workflow_dispatch:
 jobs:
-  build_and_test:
-    name: build and test
+  install_requeriments:
+    name: creacion de entorno base
     runs-on: ubuntu-latest
     steps:
       - name: clonar repositorio
@@ -24,8 +24,23 @@ jobs:
       - name: instalación de dependencias
         run: pip install -r requirements.txt
         working-directory: "D1-05-CI-CD-Publishing/desafío 1/"
+  tests:
+    needs: install_requeriments
+    runs-on: ubuntu-latest
+    name: Pruebas de codigo
+    steps:
+      - name: clonar repositorio
+        uses: actions/checkout@v4
+      - name: cache step
+        uses: actions/setup-python@v5
+        with:
+          cache: 'pip' 
+          python-version: '3.13'
+      - name: instalación de dependencias
+        run: pip install -r requirements.txt
+        working-directory: "D1-05-CI-CD-Publishing/desafío 1/"
       - name: tests
-        run: pytest > resultado_tests.txt 2>&1 
+        run: pytest | tee resultado_tests.txt 2>&1 
         working-directory: "D1-05-CI-CD-Publishing/desafío 1/"
       - name: Subir resultados de tests
         uses: actions/upload-artifact@v4
@@ -33,10 +48,25 @@ jobs:
           name: tests_logs.txt
           path: "D1-05-CI-CD-Publishing/desafío 1/resultado_tests.txt"
           overwrite: true
+  build:
+    needs: install_requeriments
+    runs-on: ubuntu-latest
+    name: Construccion del paquete
+    steps:
+      - name: clonar repositorio
+        uses: actions/checkout@v4
+      - name: cache step
+        uses: actions/setup-python@v5
+        with:
+          cache: 'pip' 
+          python-version: '3.13'
+      - name: instalación de dependencias
+        run: pip install -r requirements.txt
+        working-directory: "D1-05-CI-CD-Publishing/desafío 1/"
       - name: creación de paquete
         run: python setup.py sdist bdist_wheel
         working-directory: "D1-05-CI-CD-Publishing/desafío 1/"
-      - name: Subir resultados de tests
+      - name: Subir paquete creado
         uses: actions/upload-artifact@v4
         with:
           name: python-package-${{ github.sha }}
