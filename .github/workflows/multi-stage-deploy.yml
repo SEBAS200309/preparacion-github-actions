@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Hacer despliegue en ${{ vars.ETAPA }}
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
-        run: bash deploy.sh ${{ vars.ETAPA }} | tee resultado_${{ vars.ETAPA }}.txt
+        run: bash deploy.sh ${{ vars.ETAPA }}
       - name: Guardar resultado
         id: results-staging
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Hacer despliegue en ${{ vars.etapa }}
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
-        run: bash deploy.sh ${{ vars.etapa }} | tee resultado_${{ vars.ETAPA }}.txt
+        run: bash deploy.sh ${{ vars.etapa }}
       - name: Guardar resultado
         id: results-production
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
