@@ -43,7 +43,7 @@ jobs:
         id: results-production
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
         run: |
-          echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt | grep -i Deployment") >> "$GITHUB_OUTPUT"
+          echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt | grep -i Deployment) >> "$GITHUB_OUTPUT"
     outputs:
         log-production: ${{ steps.results-production.outputs.production }}
   upload_artifacts:
