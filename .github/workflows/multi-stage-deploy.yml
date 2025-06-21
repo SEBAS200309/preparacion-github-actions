@@ -20,12 +20,12 @@ jobs:
         uses: actions/checkout@v4
       - name: Hacer despliegue en ${{ vars.ETAPA }}
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
-        run: bash deploy.sh ${{ vars.ETAPA }}
+        run: bash deploy.sh ${{ vars.ETAPA }} | tee resultado_${{ vars.ETAPA }}.txt
       - name: Guardar resultado
         id: results-staging
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
         run: |
-          echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt)" >> "$GITHUB_OUTPUT"
+          echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt| grep -i Deployment)" >> "$GITHUB_OUTPUT"
     outputs:
         log-staging: ${{ steps.results-staging.outputs.staging }}
   production:
@@ -38,12 +38,12 @@ jobs:
         uses: actions/checkout@v4
       - name: Hacer despliegue en ${{ vars.etapa }}
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
-        run: bash deploy.sh ${{ vars.etapa }}
+        run: bash deploy.sh ${{ vars.etapa }} | tee resultado_${{ vars.ETAPA }}.txt
       - name: Guardar resultado
         id: results-production
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
         run: |
-          echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt)" >> "$GITHUB_OUTPUT"
+          echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt| grep -i Deployment" >> "$GITHUB_OUTPUT"
     outputs:
         log-production: ${{ steps.results-production.outputs.production }}
   upload_artifacts:
