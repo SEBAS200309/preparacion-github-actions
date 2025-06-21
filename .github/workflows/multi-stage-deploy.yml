@@ -17,16 +17,16 @@ jobs:
     steps:
       - name: clonar repositorio
         uses: actions/checkout@v4
-      - name: Hacer despliegue en ${{ env.ETAPA }}
+      - name: Hacer despliegue en ${{ vars.ETAPA }}
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
-        run: bash deploy.sh ${{ env.ETAPA }}
+        run: bash deploy.sh ${{ vars.ETAPA }}
   production:
     environment: "production"
     runs-on: ubuntu-latest
-    needs: build 
+    needs: [build, staging ]
     steps:
       - name: clonar repositorio
         uses: actions/checkout@v4
-      - name: Hacer despliegue en ${{ env.etapa }}
+      - name: Hacer despliegue en ${{ vars.etapa }}
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
-        run: bash deploy.sh ${{ env.etapa }}
+        run: bash deploy.sh ${{ vars.etapa }}
