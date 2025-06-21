@@ -22,11 +22,11 @@ jobs:
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
         run: bash deploy.sh ${{ vars.ETAPA }} | tee resultado_${{ vars.ETAPA }}.txt
       - name: Guardar resultado
-        id: results-${{ vars.ETAPA }}
+        id: results-staging
         run: |
-          echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt)" > "$GITHUB_OUTPUT"
+          echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt)" >> "$GITHUB_OUTPUT"
     outputs:
-        log-${{ vars.ETAPA }}: ${{ steps.results-${{ vars.ETAPA }}.outputs.${{ vars.ETAPA }} }}
+        log-staging: ${{ steps.results-staging.outputs.staging }}
   production:
     name: Job de prod
     environment: "production"
@@ -39,11 +39,11 @@ jobs:
         working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
         run: bash deploy.sh ${{ vars.etapa }} | tee resultado_${{ vars.ETAPA }}.txt
       - name: Guardar resultado
-        id: results-${{ vars.ETAPA }}
+        id: results-production
         run: |
-          echo "${{ vars.ETAPA }}=$(cat resultado_staging.txt)" > "$GITHUB_OUTPUT"
+          echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt)" >> "$GITHUB_OUTPUT"
     outputs:
-        log-${{ vars.ETAPA }}: ${{ steps.results-${{ vars.ETAPA }}.outputs.${{ vars.ETAPA }} }}
+        log-production: ${{ steps.results-production.outputs.production }}
   upload_artifacts:
     name: Generar evidencias
     runs-on: ubuntu-latest
@@ -51,8 +51,8 @@ jobs:
     steps:
       - name: Recolectar evidencias
         run: |
-          echo ${{ neeeds.staging.outputs.log-staging }} > resultados.txt
-          echo ${{ neeeds.production.outputs.log-production }} >> resultados.txt
+          echo ${{ needs.staging.outputs.log-staging }} > resultados.txt
+          echo ${{ needs.production.outputs.log-production }} >> resultados.txt
       - name: artifacts
         uses: actions/upload-artifact@v4
         with:
