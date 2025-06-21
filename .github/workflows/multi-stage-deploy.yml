@@ -1,0 +1,32 @@
+name: Despliegue en multi stage
+
+on:
+  push: 
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Relleno
+        run: echo "Este step no hace nada realmente"
+  staging:
+    environment: staging
+    runs-on: ubuntu-latest
+    needs: build 
+    steps:
+      - name: clonar repositorio
+        uses: actions/checkout@v4
+      - name: Hacer despliegue en ${{ env.ETAPA }}
+        working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
+        run: bash deploy.sh ${{ env.ETAPA }}
+  production:
+    environment: "production"
+    runs-on: ubuntu-latest
+    needs: build 
+    steps:
+      - name: clonar repositorio
+        uses: actions/checkout@v4
+      - name: Hacer despliegue en ${{ env.etapa }}
+        working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
+        run: bash deploy.sh ${{ env.etapa }}
