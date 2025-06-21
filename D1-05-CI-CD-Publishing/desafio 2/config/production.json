@@ -1,0 +1,6 @@
+{
+  "environment": "production",
+  "api_url": "https://api-production.example.com",
+  "database": "production_db",
+  "debug": false
+}

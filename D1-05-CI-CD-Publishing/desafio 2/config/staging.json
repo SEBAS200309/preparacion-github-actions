@@ -1,0 +1,6 @@
+{
+  "environment": "staging",
+  "api_url": "https://api-staging.example.com",
+  "database": "staging_db",
+  "debug": true
+}
