@@ -21,9 +21,6 @@ jobs:
         with:
           cache: 'pip' 
           python-version: '3.13'
-      - name: instalación de dependencias
-        run: pip install -r requirements.txt
-        working-directory: "D1-05-CI-CD-Publishing/desafío 1/"
   tests:
     needs: install_requeriments
     runs-on: ubuntu-latest
