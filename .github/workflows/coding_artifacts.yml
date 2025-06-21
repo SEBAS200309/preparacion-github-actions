@@ -17,11 +17,13 @@ jobs:
           repository: LuisDelgado-LD/proyecto-integrador-dh-frontend
           
       - name: cache 
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          cache: ${{ hashFiles('./package-lock.json') }}
+          key: ${{ hashFiles('./package-lock.json') }}
+          path: node_modules/
+          restore-keys: ${{ hashFiles('./package-lock.json') }}
       - name: Build nodejs package
-        run: npm -i >> instalacion.txt
+        run: npm i >> instalacion.txt
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
