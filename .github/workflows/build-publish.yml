@@ -1,0 +1,41 @@
+name: Practica publicacion package
+
+on:
+  push: 
+    paths:
+      - "D1-05-CI-CD-Publishing/desafío 1/**"
+  pull_request:
+    types: opened
+    paths:
+      - "D1-05-CI-CD-Publishing/desafío 1/**"
+jobs:
+  build_and_test:
+    name: build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: clonar repositorio
+        uses: actions/checkout@v4
+        with:
+          path: "D1-05-CI-CD-Publishing/desafío 1/"
+      - name: cache step
+        uses: actions/setup-python@v5
+        with:
+          cache: 'pip' 
+          python-version: '3.13'
+      - name: instalación de dependencias
+        run: pip install -r requirements.txt
+      - name: tests
+        run: pytest > resultado_tests.txt 2>&1 
+      - name: Subir resultados de tests
+        uses: actions/upload-artifact@v4
+        with:
+          name: tests_logs.txt
+          path: resultado_tests.txt
+          overwrite: true
+      - name: creación de paquete
+        run: python setup.py sdist bdist_wheel
+      - name: Subir resultados de tests
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-${{ github.sha }}
+          path: dist/*
