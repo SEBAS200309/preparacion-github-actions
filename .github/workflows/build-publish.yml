@@ -21,21 +21,23 @@ jobs:
         with:
           cache: 'pip' 
           python-version: '3.13'
-      - run: cd D1-05-CI-CD-Publishing/desafío\ 1/
       - name: instalación de dependencias
         run: pip install -r requirements.txt
+        working-directory: "D1-05-CI-CD-Publishing/desafío 1/"
       - name: tests
         run: pytest > resultado_tests.txt 2>&1 
+        working-directory: "D1-05-CI-CD-Publishing/desafío 1/"
       - name: Subir resultados de tests
         uses: actions/upload-artifact@v4
         with:
           name: tests_logs.txt
-          path: resultado_tests.txt
+          path: "D1-05-CI-CD-Publishing/desafío 1/resultado_tests.txt"
           overwrite: true
       - name: creación de paquete
         run: python setup.py sdist bdist_wheel
+        working-directory: "D1-05-CI-CD-Publishing/desafío 1/"
       - name: Subir resultados de tests
         uses: actions/upload-artifact@v4
         with:
           name: python-package-${{ github.sha }}
-          path: dist/*
+          path: "D1-05-CI-CD-Publishing/desafío 1/dist/*"
