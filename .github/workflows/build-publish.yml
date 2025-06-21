@@ -21,7 +21,7 @@ jobs:
         with:
           cache: 'pip' 
           python-version: '3.13'
-      - run: cd D1-05-CI-CD-Publishing/desafío 1/
+      - run: cd D1-05-CI-CD-Publishing/desafío\ 1/
       - name: instalación de dependencias
         run: pip install -r requirements.txt
       - name: tests
