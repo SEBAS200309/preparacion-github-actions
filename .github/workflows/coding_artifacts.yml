@@ -1,0 +1,32 @@
+name: artifacts and cache
+
+on:
+  push:
+    branches:
+      - "d1.3-2"
+  workflow_dispatch:
+
+jobs:
+  crear-cache:
+    name: github actions 
+    runs-on: ubuntu-latest
+    steps:
+      - name: importar repositorio
+        uses: actions/checkout@v4
+        with:
+          repository: https://github.com/LuisDelgado-LD/proyecto-integrador-dh-frontend
+          
+      - name: cache 
+        uses: actions/cache@v3
+        with:
+          cache: ${{ hashFiles('./package-lock.json') }}
+      - name: Build nodejs package
+        run: npm -i >> instalacion.txt
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Resultado instalacion"
+          path: "instalacion.txt"
+          overwrite: true
+
+
