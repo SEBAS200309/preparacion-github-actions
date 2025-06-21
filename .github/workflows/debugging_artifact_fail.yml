@@ -9,10 +9,10 @@ jobs:
       - name: Create file
         run: echo "Some content" > output.txt
       - name: Upload artifact (error here)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: my-artifact
-          path: non_existent_folder/output.txt # Error: Ruta incorrecta, no existe 'non_existent_folder'
+          path: output.txt 
 
   download:
     runs-on: ubuntu-latest
@@ -21,7 +21,7 @@ jobs:
       - name: Download artifact (will fail if upload fails or name is wrong)
         uses: actions/download-artifact@v3
         with:
-          name: non-existent-artifact # Error: Nombre incorrecto si el artefacto de 'build' se llama 'my-artifact'
+          name: my-artifact
           path: ./downloaded-artifact
       - name: Verify downloaded content
         run: cat ./downloaded-artifact/output.txt
