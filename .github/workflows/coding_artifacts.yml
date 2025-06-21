@@ -3,7 +3,7 @@ name: artifacts and cache
 on:
   push:
     branches:
-      - "d1.3-2"
+      - "*"
   workflow_dispatch:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
       - name: importar repositorio
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/LuisDelgado-LD/proyecto-integrador-dh-frontend
+          repository: LuisDelgado-LD/proyecto-integrador-dh-frontend
           
       - name: cache 
         uses: actions/cache@v3
