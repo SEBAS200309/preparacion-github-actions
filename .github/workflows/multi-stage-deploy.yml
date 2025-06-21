@@ -23,6 +23,7 @@ jobs:
         run: bash deploy.sh ${{ vars.ETAPA }} | tee resultado_${{ vars.ETAPA }}.txt
       - name: Guardar resultado
         id: results-staging
+        working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
         run: |
           echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt)" >> "$GITHUB_OUTPUT"
     outputs:
@@ -40,6 +41,7 @@ jobs:
         run: bash deploy.sh ${{ vars.etapa }} | tee resultado_${{ vars.ETAPA }}.txt
       - name: Guardar resultado
         id: results-production
+        working-directory: "D1-05-CI-CD-Publishing/desafio 2/"
         run: |
           echo "${{ vars.ETAPA }}=$(cat resultado_${{ vars.ETAPA }}.txt)" >> "$GITHUB_OUTPUT"
     outputs:
@@ -53,6 +55,7 @@ jobs:
         run: |
           echo ${{ needs.staging.outputs.log-staging }} > resultados.txt
           echo ${{ needs.production.outputs.log-production }} >> resultados.txt
+          cat resultados.txt
       - name: artifacts
         uses: actions/upload-artifact@v4
         with:
