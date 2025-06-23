@@ -19,6 +19,10 @@ jobs:
           ref: ${{ github.ref }}
       - name: Instalación entorno node
         uses: actions/setup-node@v4
+      - name:  configurar repositorio
+        run: |
+          echo "@$(echo $GITHUB_REPOSITORY | cut -d/ -f1):registry=https://npm.pkg.github.com/" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE }}" >> .npmrc
       - name: Compilación
         run: |
           bash build.sh
