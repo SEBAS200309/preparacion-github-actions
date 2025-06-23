@@ -16,7 +16,7 @@ jobs:
       - name: Checkout del proyecto
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.action_ref }}
+          ref: ${{ github.ref }}
       - name: Instalación entorno node
         uses: actions/setup-node@v4
       - name: Compilación
