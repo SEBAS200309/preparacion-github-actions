@@ -1,0 +1,26 @@
+name: Releases
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest 
+    name: Compilación del paquete
+    defaults:
+      run:
+        working-directory: D1-05-CI-CD-Publishing/desafio 3
+    steps:
+      - name: Checkout del proyecto
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.action_ref }}
+      - name: Instalación entorno node
+        uses: actions/setup-node@v4
+      - name: Compilación
+        run: |
+          bash build.sh
+      - name: publicacion
+        run: npm publish

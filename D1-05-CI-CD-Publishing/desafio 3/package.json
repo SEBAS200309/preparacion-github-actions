@@ -1,0 +1,19 @@
+{
+  "name": "@luisdelgado-ld/my-app",
+  "version": "1.0.0",
+  "description": "Sample application for GitHub Actions",
+  "main": "index.js",
+  "scripts": {
+    "build": "./build.sh",
+    "test": "echo 'Tests passed'"
+  },
+  "author": "GitHub Actions Student",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LuisDelgado-LD/preparacion-github-actions"
+    },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
+}
