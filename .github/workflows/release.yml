@@ -24,3 +24,5 @@ jobs:
           bash build.sh
       - name: publicacion
         run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PACKAGE }}
