@@ -1,0 +1,24 @@
+name: Cache con Redis
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cache:
+    name: Crear un contenedor de redis y probarlo
+    runs-on: ubuntu-latest
+    env:
+      REDIS_HOST: localhost
+      REDIS_PORT: 105780
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar libreria redis en Python
+        run: pip install redis
+      - name: Ejecutar contenedor redis
+        uses: supercharge/redis-github-action@1.7.0
+        with:
+          redis-image: redis/8-alpine
+          redis-port: ${{ env.REDIS_PORT }}
+      - name: Probar la conectividad
+        run: |
+          python "D1-06-Database-Service-Containers/Desafio 2/simulate_cache.py"
