@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REDIS_HOST: localhost
-      REDIS_PORT: 105780
+      REDIS_PORT: 10578
     steps:
       - uses: actions/checkout@v4
       - name: Instalar libreria redis en Python
