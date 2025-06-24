@@ -268,6 +268,13 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
 ```
 
+```text
+# requirements.txt
+flask==2.0.1
+pytest==7.4.0
+pytest-flask==1.2.0
+```
+
 ```dockerfile
 # Dockerfile
 FROM python:3.9-slim
