@@ -45,18 +45,15 @@ jobs:
       
       - name: Save Docker image
         run: |
-          docker save myapp:latest > myapp.tar
+          docker save myapp:latest | tee myapp.tar
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: docker-image
-          path: myapp.tar
+          path: "D1-05-CI-CD-Publishing/desafio 4/myapp.tar"
 
   deploy:
-    defaults:
-      run:
-        working-directory: "D1-05-CI-CD-Publishing/desafio 4/"
     needs: [test, build]
     runs-on: ubuntu-latest
     environment: production
