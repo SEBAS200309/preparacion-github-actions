@@ -1,0 +1,16 @@
+name: Coding Push PR
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ejecutar_comandos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: echo "¡El flujo de trabajo se activó por un push o pull request!"
