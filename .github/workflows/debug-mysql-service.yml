@@ -1,0 +1,41 @@
+# .github/workflows/debug-mysql-service.yml (CON ERRORES INTENCIONALES)
+name: Debug MySQL Service
+
+on: 
+  workflow_dispatch:
+    
+
+jobs:
+  test-mysql-connection:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: myappdb
+          MYSQL_USER: myuser
+          MYSQL_PASSWORD: mypassword
+        ports:
+          - 3306:3306
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: pip install mysql-connector-python
+
+    - name: Wait for MySQL to be ready
+      run: sleep 10 # Waiting for DB to start
+
+    - name: Test DB connection
+      run: python faulty_db_connection.py
+      env:
+        MYSQL_HOST: localhost
+        MYSQL_DB: myappdb
+        MYSQL_USER: myuser
+        MYSQL_PASSWORD: mypassword
