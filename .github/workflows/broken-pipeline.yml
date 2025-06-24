@@ -3,12 +3,15 @@ name: Broken CI/CD Pipeline
 
 on:
   push:
-    branchs: [ main, develop ]  
+    branches: [ main, develop ]  
   pull_request:
     branches: [ main ]
 
 jobs:
   test:
+    defaults:
+      run:
+        working-directory: "D1-05-CI-CD-Publishing/desafio 4/"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,7 +19,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9  
+          python-version: 3.9 
       
       - name: Install dependencies
         run: |
@@ -34,8 +37,8 @@ jobs:
       
       - name: Build Docker image
         run: |
-          docker build -t myapp:$GITHUB_SHA .  
-          docker tag myapp:$GITHUB_SHA myapp:latest
+          docker build -t myapp:${{ GITHUB_SHA }}.  
+          docker tag myapp:${{ GITHUB_SHA }} myapp:latest
       
       - name: Save Docker image
         run: |
