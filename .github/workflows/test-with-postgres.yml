@@ -23,13 +23,15 @@ jobs:
           key: ${{ runner.arch }}
       - name: Desplegar contenedor Docker
         run: |
-          docker run --name postgres-db 
-          -e POSTGRES_PASSWORD=${{ env.PPASS }} 
-          -p 5432:5432 
+          docker run --name postgres-db \
+          -e POSTGRES_PASSWORD=${{ env.PPASS }} \
+          -p 5432:5432 \
           -d postgres:latest
       - name: Instalar dependencias python
         run: pip install psycopg2
       - name: Validar la conectividad al contenedor
+        env:
+          password: ${{ env.PPASS }}
         working-directory: "D1-06-Database-Service-Containers/Desafio 1/"
         run: python test_db_connection.py
 
