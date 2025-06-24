@@ -37,8 +37,8 @@ jobs:
       
       - name: Build Docker image
         run: |
-          docker build -t myapp:${{ GITHUB_SHA }}.  
-          docker tag myapp:${{ GITHUB_SHA }} myapp:latest
+          docker build -t myapp:${{ GITHUB.SHA }}.  
+          docker tag myapp:${{ GITHUB.SHA }} myapp:latest
       
       - name: Save Docker image
         run: |
