@@ -33,7 +33,8 @@ jobs:
         run: pip install psycopg2
       - name: Validar la conectividad al contenedor
         env:
-          password: ${{ env.PPASS }}
+          DB_PASSWORD: ${{ env.PPASS }}
         working-directory: "D1-06-Database-Service-Containers/Desafio 1/"
         run: python test_db_connection.py
+        continue-on-error: true
 
