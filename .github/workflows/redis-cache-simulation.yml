@@ -17,7 +17,7 @@ jobs:
       - name: Ejecutar contenedor redis
         uses: supercharge/redis-github-action@1.7.0
         with:
-          redis-image: redis/8-alpine
+          redis-version: 8-alpine
           redis-port: ${{ env.REDIS_PORT }}
       - name: Probar la conectividad
         run: |
