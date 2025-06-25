@@ -1,0 +1,15 @@
+name: Depuración de Trigger Fallido
+
+on:
+  push:
+    branches-ignore:
+      - !main
+
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show branch
+        run: |
+          echo "Esta rama es: ${{ github.ref }}"
