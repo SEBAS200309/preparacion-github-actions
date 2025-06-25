@@ -1,0 +1,65 @@
+name: Condtionals Test
+
+on:
+  push:
+    branches:
+      - main
+      - rama_2
+      - feature/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    #definimos un output al nivel de jpb pero que tenga el resultado dle step
+    outputs:
+      resultado: ${{ steps.check.outputs.continue }}
+    steps:
+      - id: check
+        name: Comprobador condicion
+        run: |
+          # Aquí pones tu lógica; como ejemplo, comprobamos si estamos en la rama "main"
+          if [[ "${GITHUB_REF##*/}" == "main" ]]; then
+            echo "continue=true" >> $GITHUB_OUTPUT
+          else
+            echo "continue=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Paso A (Solo si si continue es true)
+        if: ${{ steps.check.outputs.continue == 'true' }}
+        run: |
+          echo "Este paso se ejecuta solo si continue es true"
+          echo "Estamos en la rama main, continuamos con el flujo de trabajo."
+      - name: Paso B si sigue siendo true
+        if: ${{ steps.check.outputs.continue == 'true' }}
+        run: |
+          echo "Este paso también se ejecuta solo si continue es true"
+          echo "Continuamos con el flujo de trabajo."
+      - name: Paso C (Siempre se ejecuta)
+        run: |
+          echo "Este paso se ejecuta siempre, independientemente del valor de continue"
+          echo "Finalizando el flujo de trabajo."
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ needs.build.outputs.resultado == 'true' }}
+    steps:
+      - name: Despliegue
+        run: |
+          echo "Desplegando la aplicación porque continue es true"
+          echo "Este paso se ejecuta solo si el resultado del job build es true."
+  
+  fallback:
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ needs.build.outputs.resultado == 'false' }}
+    steps:
+      - name: Fallback
+        run: |
+          echo "No se puede desplegar porque continue es false"
+          echo "Este paso se ejecuta solo si el resultado del job build es false."
+      - name: Notificar
+        run: |
+          echo "Notificando que el despliegue no se realizó porque continue es false"
+          echo "Este paso se ejecuta para informar sobre el estado del flujo de trabajo."
+
+      
