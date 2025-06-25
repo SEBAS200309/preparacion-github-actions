@@ -13,12 +13,17 @@ jobs:
       PROYECTO_NOMBRE: Nombre Del PROYECTO
 
     steps:
+      - name: definir variable a nivel de step
+        env: 
+          VERSION_APP: "1.0.0"
+        run: echo "Variable instnaciada"
       - name: Show variable
-        run: echo "El nombre del proyecto es: $PROYECTO_NOMBRE"
+        run: |
+          echo "El nombre del proyecto es: ${PROYECTO_NOMBRE}"
       - name: Show version
-        env:
-          VERSION_APP: 1.0.0
-        run: echo "La version de la app es: $VERSION_APP"
+        run: |
+          echo "La version de la app es: ${VERSION_APP}"
       - name: Github variable
-        run: echo "El nombre del repositorio es: $GITHUB_REPOSITORY"
+        run: |
+          echo "El nombre del repositorio es: ${GITHUB_REPOSITORY}"
       
