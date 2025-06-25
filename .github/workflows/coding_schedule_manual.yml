@@ -1,0 +1,21 @@
+name: Schedule Workflow
+
+on:
+    schedule:
+        - cron: '0 3 * * *'  # Runs every day at 3 am UTC
+    workflow_dispatch:  # Allows manual triggering of the workflow
+
+jobs:
+  tarea_programada_o_manual:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verificacion evento
+        run: |
+          if [ "${{ github.event_name }}" == "schedule" ]; then
+            echo "Evento programado con ${GITHUB_EVENT_NAME}"
+          elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "Evento manual con ${GITHUB_EVENT_NAME}"
+          else
+            echo "Evento desconocido"
+          fi
