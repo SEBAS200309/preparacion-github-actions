@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  first_job:
+  ejecutar_comandos:
     runs-on: ubuntu-latest
     steps:
       - name: comando comprovasion
-        run: echo "Este comando se ejecuto cuando se hizo un push o un pull request a la rama main :D"
+        run: echo "¡El flujo de trabajo se activó por un push o pull request!"
