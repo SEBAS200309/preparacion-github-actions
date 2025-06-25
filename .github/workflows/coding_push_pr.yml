@@ -13,4 +13,4 @@ jobs:
     runs-on: ejecut
     steps:
       - name: comando comprovasion
-        run: echo "Este comando se ejecuto cuando se hizo un push o un pull request a la rama main"
+        run: echo "Este comando se ejecuto cuando se hizo un push o un pull request a la rama main :D"
