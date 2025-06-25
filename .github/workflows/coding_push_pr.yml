@@ -1,0 +1,16 @@
+name: PUSH PR
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  first_job:
+    runs-on: ejecut
+    steps:
+      - name: comando comprovasion
+        run: echo "Este comando se ejecuto cuando se hizo un push o un pull request a la rama main"
