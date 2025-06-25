@@ -3,7 +3,7 @@ name: Depuración de Trigger Fallido
 on:
   push:
     branches-ignore:
-      - !main
+      - 'main'
 
 
 jobs:
