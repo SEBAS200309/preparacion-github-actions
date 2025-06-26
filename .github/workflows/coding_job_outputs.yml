@@ -24,7 +24,8 @@ jobs:
     steps:
       - id: s02
         name: Consumir Outputs del primer job
+        env:
+          primer_outputs_job: ${{ needs.generar_datos.outputs.primer_outputs_job }}
         run: |
           echo "Consumiendo Outputs del primer job"
-          echo "primer_outputs_job=${{ needs.generar_datos.outputs.primer_outputs_job }}"
-          echo "El Output del primer job es: $primer_outputs_job"
+          echo "El Output del primer job es: ${primer_outputs_job}"
