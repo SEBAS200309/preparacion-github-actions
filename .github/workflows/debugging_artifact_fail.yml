@@ -1,0 +1,27 @@
+name: Debugging Artifact Fail
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create file
+        run: echo "Some content" > output.txt
+      - name: Upload artifact (error here)
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: output.txt 
+
+  download:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact (will fail if upload fails or name is wrong)
+        uses: actions/download-artifact@v3
+        with:
+          name: my-artifact 
+          path: ./downloaded-artifact
+      - name: Verify downloaded content
+        run: cat ./downloaded-artifact/output.txt
