@@ -1,0 +1,30 @@
+name: Coding Outputs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generar_datos:
+    runs-on: ubuntu-latest
+    outputs:
+      primer_outputs_job: ${{ steps.s01.outputs.primer_outputs }}
+
+    steps:
+      - id: s01
+        name: Generar primer Outputs
+        run: |
+          echo "Generando primer Outputs"
+          echo "primer_outputs=build-123" >> $GITHUB_OUTPUT
+
+  consumir_datos:
+    runs-on: ubuntu-latest
+    needs: generar_datos
+    steps:
+      - id: s02
+        name: Consumir Outputs del primer job
+        run: |
+          echo "Consumiendo Outputs del primer job"
+          echo "primer_outputs_job=${{ needs.generar_datos.outputs.primer_outputs_job }}"
+          echo "El Output del primer job es: $primer_outputs_job"
