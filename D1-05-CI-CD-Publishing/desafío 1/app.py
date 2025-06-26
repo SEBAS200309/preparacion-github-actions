@@ -7,4 +7,4 @@ def calcular_producto(a, b):
 if __name__ == "__main__":
     print("Calculadora básica")
     print(f"Suma: {calcular_suma(5, 3)}")
-    print(f"Producto: {calcular_producto(5, 3)}")
+    print(f"Producto: {calcular_producto(6, 3)}")
